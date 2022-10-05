@@ -1,128 +1,36 @@
-# VBA-Practice
-Sub AllStocksAnalysisRefactored()
-    Dim startTime As Single
-    Dim endTime  As Single
+# VBA_Challenge
 
-    yearvalue = InputBox("What year would you like to run the analysis on?")
-
-    startTime = Timer
-    
-    'Format the output sheet on All Stocks Analysis worksheet
-    Worksheets("All Stocks Analysis Refactored").Activate
-    
-    Range("A1").Value = "All Stocks (" + yearvalue + ")"
-    
-    'Create a header row
-    Cells(3, 1).Value = "Ticker"
-    Cells(3, 2).Value = "Total Daily Volume"
-    Cells(3, 3).Value = "Return"
-
-    'Initialize array of all tickers
-    Dim tickers(11) As String
-    Dim tickerStartingPrices As Single
-    Dim tickerEndingPrices As Single
-    Dim tickerVolumes As Long
-    
-    tickers(0) = "AY"
-    tickers(1) = "CSIQ"
-    tickers(2) = "DQ"
-    tickers(3) = "ENPH"
-    tickers(4) = "FSLR"
-    tickers(5) = "HASI"
-    tickers(6) = "JKS"
-    tickers(7) = "RUN"
-    tickers(8) = "SEDG"
-    tickers(9) = "SPWR"
-    tickers(10) = "TERP"
-    tickers(11) = "VSLR"
-    
-    'Activate data worksheet
-    Worksheets("2018").Activate
-    
-    'Get the number of rows to loop over
-    RowCount = Cells(Rows.Count, "A").End(xlUp).Row
-    
-    
-    ''2a) Create a for loop to initialize the tickerVolumes to zero.
-    For I = 0 To 11
-    Ticker = tickers(I)
-    tickerVolumes = 0
-        
-    ''2b) Loop over all the rows in the spreadsheet.
-        Worksheets("2018").Activate
-    
-        '3a) Increase volume for current ticker
-        For j = 2 To RowCount
-        
-        If Cells(j, 1).Value = Ticker Then
-
-               tickerVolumes = tickerVolumes + Cells(j, 8).Value
-        End If
-        
-        
-        
-        
-        '3b) Check if the current row is the first row with the selected tickerIndex.
-        'If  Then
-            
-              If Cells(j - 1, 1).Value <> Ticker And Cells(j, 1).Value = Ticker Then
-
-               tickerStartingPrices = Cells(j, 6).Value
-            
-        End If
-        
-        '3c) check if the current row is the last row with the selected ticker
-         'If the next row’s ticker doesn’t match, increase the tickerIndex.
-        'If  Then
-            
-            
-            If Cells(j + 1, 1).Value <> Ticker And Cells(j, 1).Value = Ticker Then tickerEndingPrices = Cells(j, 6).Value
-           
+## Overview
+To compare the stock performance between 2017 and 2018 as well as comparing the execution times of the original and refractored script.  
+  
  
-     Next j
-            
-    
-    Next I
-    
-    '4) Loop through your arrays to output the Ticker, Total Daily Volume, and Return.
-    For I = 0 To 11
-        
-        Worksheets("All Stocks Analysis Refactored").Activate
-        
-       Cells(4 + I, 1).Value = Ticker
-       Cells(4 + I, 2).Value = tickerVolumes
-       Cells(4 + I, 3).Value = (tickerEndingPrices / tickerStartingPrices) - 1
+## Results  
+####
+Based on the analysis in year 2017 except ticker, TERP; the rest stocks showed positive returns whereas in 2018 only two stocks (ENPH and RUN) showed positive returns. Therefore, year 2017 stocks had higher positive returs as compared to 2018. 
 
-    
-    Next I
-    
-    'Formatting
-    Worksheets("All Stocks Analysis Refactored").Activate
-    Range("A3:C3").Font.FontStyle = "Bold"
-    Range("A3:C3").Borders(xlEdgeBottom).LineStyle = xlContinuous
-    Range("B4:B15").NumberFormat = "#,##0"
-    Range("C4:C15").NumberFormat = "0.0%"
-    Columns("B").AutoFit
+## Summary 
 
-    dataRowStart = 4
-    dataRowEnd = 15
+### Advantages and disadvantages of refractored code
 
-    For I = dataRowStart To dataRowEnd
-        
-        If Cells(I, 3) > 0 Then
-            
-            Cells(I, 3).Interior.Color = vbGreen
-            
-        Else
-        
-            Cells(I, 3).Interior.Color = vbRed
-            
-        End If
-        
-    Next I
- 
-    endTime = Timer
-    MsgBox "This code ran in " & (endTime - startTime) & " seconds for the year " & (yearvalue)
+#### Advantages 
+- Removes excess or redundant codes while refractoring making it easier to understand and modify codes
+- Writing and executing codes becomes quicker
+- Improves code quality and design 
+- Use to fix bugs, clean, and organize codes. 
+- Refractoring further is always an option 
 
-End Sub
+#### Disadvantages 
+- Can break working code that is difficult to understand and poorly structured 
+- It may introduce bugs and risky in a managerial point of view
+- Requires previous understanding
+####
+-----------------------------------------------------------------------------------------------------------
 
+### Advantages and disadvantages of original and refractored VBA script
+#### Advantages 
+- Code, in VBA analysis runs quickly and is simple to read compared to original scripts. 
+- Code refractoring is a way of restructuring and optimizing existing code without changing its external behavior. 
+-e Enables the user to review and excuite the data easily.  
+#### Disadvantages
+- For our data, perform analysis can only be done one year at a time
+- Easier to miss codes and break codes; in this situation the process can become risky and time consuming. 
